@@ -6,6 +6,7 @@ import { AuthProvider } from "./Context/AuthContext/AuthContext";
 import { makeServer } from "./server";
 import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
+import { UserProvider } from "./Context/UserContext/UserContext";
 
 // Call make Server
 makeServer();
@@ -13,11 +14,13 @@ makeServer();
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
-      <ChakraProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ChakraProvider>
+      <UserProvider>
+        <ChakraProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ChakraProvider>
+      </UserProvider>
     </AuthProvider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,4 +1,4 @@
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Button,
   Container,
@@ -6,12 +6,11 @@ import {
   Heading,
   Spacer,
   useColorMode,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import { useAuth } from "../../Context/AuthContext/AuthContext";
 
-const Navbar = ({ headingColorValue }) => {
+const Navbar = ({ headingColorValue, onOpen }) => {
   const [authState, authDispatch] = useAuth();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -32,9 +31,14 @@ const Navbar = ({ headingColorValue }) => {
   };
 
   return (
-    <Container maxW="90%" padding="2">
+    <Container maxW={["90vw", "80vw", "50vw"]} padding="2">
       <Flex align="center">
-        <Heading color={headingColorValue}>Notes App</Heading>
+        <Button variant="ghost" mr="2" onClick={onOpen}>
+          {authState.encodedToken && <HamburgerIcon w={6} h={6} />}
+        </Button>
+        <Heading size="lg" color={headingColorValue}>
+          Notes App
+        </Heading>
         <Spacer />
         <Button variant="ghost" onClick={toggleColorMode}>
           {colorMode === "light" ? (
