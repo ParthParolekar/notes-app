@@ -34,7 +34,10 @@ const Notes = ({ modalOnOpen }) => {
       <CreateNoteButton modalOnOpen={modalOnOpen} />
 
       <Accordion allowMultiple>
-        {notes && notes.map((note) => <Note note={note} key={note._id} />)}
+        {notes &&
+          notes.map((note) => (
+            <Note note={note} key={note._id} modalOnOpen={modalOnOpen} />
+          ))}
       </Accordion>
     </Container>
   );

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
+  Checkbox,
   FormControl,
   FormLabel,
   HStack,
@@ -18,58 +19,121 @@ import {
 import axios from "axios";
 import { useUser } from "../../Context/UserContext/UserContext";
 import { useAuth } from "../../Context/AuthContext/AuthContext";
+import { useNote } from "../../Context/NoteContext/NoteContext";
+import {
+  TitleInput,
+  DescriptionInput,
+  PriorityInput,
+  TagsInput,
+  ColorInput,
+  PinnedInput,
+} from "../index";
 
 const CreateNote = ({ modalIsOpen, modalOnClose }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("");
+  const [note, setNote] = useState({
+    title: "",
+    description: "",
+    priority: "",
+    tags: [],
+    color: "",
+    isPinned: false,
+  });
   const [tag, setTag] = useState("");
-  const [tags, setTags] = useState([]);
+  const [titleEmptyError, setTitleEmptyError] = useState(false);
 
   const [userState, userDispatch] = useUser();
   const [authState, authDispatch] = useAuth();
+  const [noteState, noteDispatch] = useNote();
 
-  console.log(userState.notes);
+  useEffect(() => {
+    if (noteState.editNote === true) {
+      setNote(noteState.editNoteDetails);
+    } else {
+      setNote({
+        ...note,
+        title: "",
+        description: "",
+        priority: "",
+        tags: [],
+        color: "",
+        isPinned: false,
+      });
+    }
+  }, [noteState]);
 
   const clearPreviousNote = () => {
     modalOnClose();
-    setTitle("");
-    setDescription("");
-    setPriority("");
+    setNote({
+      ...note,
+      title: "",
+      description: "",
+      priority: "",
+      tags: [],
+      color: "",
+      isPinned: false,
+    });
+
     setTag("");
-    setTags([]);
+  };
+
+  const editNote = () => {
+    if (note.title.length === 0) {
+      setTitleEmptyError(true);
+    } else {
+      try {
+        axios
+          .post(
+            `/api/notes/${noteState.editNoteDetails._id}`,
+            {
+              note,
+            },
+            { headers: { authorization: authState.encodedToken } }
+          )
+          .then((res) =>
+            userDispatch({ type: "NOTES_HANDLER", payload: res.data.notes })
+          )
+          .then(
+            noteDispatch({
+              type: "NOTE_HANDLER",
+              payload: { editNote: false, editNoteDetails: null },
+            })
+          )
+          .then(clearPreviousNote());
+      } catch {
+        (err) => console.log(err);
+      }
+    }
   };
 
   const createNote = async () => {
-    try {
-      axios
-        .post(
-          "/api/notes",
-          {
-            note: {
-              title,
-              description,
-              priority,
-              tags,
-              createdAt: {
-                year: new Date().getFullYear(),
-                month: new Date().getMonth(),
-                date: new Date().getDate(),
-                hour: new Date().getHours(),
-                minute: new Date().getMinutes(),
-                time: new Date().getTime(),
+    if (note.title.length === 0) {
+      setTitleEmptyError(true);
+    } else {
+      try {
+        axios
+          .post(
+            "/api/notes",
+            {
+              note: {
+                ...note,
+                createdAt: {
+                  year: new Date().getFullYear(),
+                  month: new Date().getMonth(),
+                  date: new Date().getDate(),
+                  hour: new Date().getDate(),
+                  minute: new Date().getMinutes(),
+                },
               },
-              pinned: false,
             },
-          },
-          { headers: { authorization: authState.encodedToken } }
-        )
-        .then((res) =>
-          userDispatch({ type: "NOTES_HANDLER", payload: res.data.notes })
-        )
-        .then(clearPreviousNote());
-    } catch {
-      (err) => console.log(err);
+            { headers: { authorization: authState.encodedToken } }
+          )
+          .then((res) =>
+            userDispatch({ type: "NOTES_HANDLER", payload: res.data.notes })
+          )
+          .then(clearPreviousNote());
+      } catch {
+        (err) => console.log(err);
+      }
     }
   };
   return (
@@ -80,63 +144,35 @@ const CreateNote = ({ modalIsOpen, modalOnClose }) => {
         <ModalCloseButton />
         <ModalBody>
           <form>
-            <FormControl>
-              <FormLabel htmlFor="title">Title</FormLabel>
-              <Input
-                type="text"
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="description">Description</FormLabel>
-              <Textarea
-                type="text"
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Priority</FormLabel>
-              <Select
-                placeholder="Select priority"
-                onChange={(e) => setPriority(e.target.value)}
-              >
-                <option value="LOW">LOW</option>
-                <option value="MEDIUM">MEDIUM</option>
-                <option value="HIGH">HIGH</option>
-              </Select>
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="tag">Tag</FormLabel>
-              <HStack align="center">
-                <Input
-                  w="75%"
-                  type="text"
-                  id="tag"
-                  value={tag}
-                  onChange={(e) => setTag(e.target.value)}
-                />
-                <Button
-                  w="25%"
-                  onClick={(e) => {
-                    setTags(tags.concat(tag));
-                    setTag("");
-                  }}
-                >
-                  Add Tag
-                </Button>
-              </HStack>
-            </FormControl>
+            <TitleInput
+              note={note}
+              setNote={setNote}
+              titleEmptyError={titleEmptyError}
+              setTitleEmptyError={setTitleEmptyError}
+            />
+            <DescriptionInput note={note} setNote={setNote} />
+            <PriorityInput note={note} setNote={setNote} />
+            <TagsInput
+              note={note}
+              setNote={setNote}
+              tag={tag}
+              setTag={setTag}
+            />
+            <ColorInput note={note} setNote={setNote} />
+            <PinnedInput note={note} setNote={setNote} />
           </form>
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={createNote}>
-            Create
-          </Button>
+          {noteState.editNote ? (
+            <Button colorScheme="blue" mr={3} onClick={editNote}>
+              Edit
+            </Button>
+          ) : (
+            <Button colorScheme="blue" mr={3} onClick={createNote}>
+              Create
+            </Button>
+          )}
           <Button variant="ghost" onClick={modalOnClose}>
             Cancel
           </Button>

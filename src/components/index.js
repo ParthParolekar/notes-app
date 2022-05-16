@@ -5,6 +5,12 @@ import Sidebar from "./Sidebar/Sidebar";
 import CreateNote from "./CreateNote/CreateNote";
 import Note from "./Note/Note";
 import CreateNoteButton from "./CreateNoteButton/CreateNoteButton";
+import TitleInput from "./TitleInput/TitleInput";
+import DescriptionInput from "./DescriptionInput/DescriptionInput";
+import PriorityInput from "./PriorityInput/PriorityInput";
+import TagsInput from "./TagsInput/TagsInput";
+import ColorInput from "./ColorInput/ColorInput";
+import PinnedInput from "./PinnedInput/PinnedInput";
 export {
   Navbar,
   LoginForm,
@@ -13,4 +19,10 @@ export {
   CreateNote,
   Note,
   CreateNoteButton,
+  TitleInput,
+  DescriptionInput,
+  PriorityInput,
+  TagsInput,
+  ColorInput,
+  PinnedInput,
 };

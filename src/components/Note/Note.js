@@ -1,3 +1,5 @@
+import React from "react";
+import { CloseIcon } from "@chakra-ui/icons";
 import {
   AccordionButton,
   AccordionIcon,
@@ -7,27 +9,42 @@ import {
   Button,
   Heading,
   Tag,
+  TagLabel,
+  TagRightIcon,
 } from "@chakra-ui/react";
-import React from "react";
+import { useNote } from "../../Context/NoteContext/NoteContext";
 
-const Note = ({
-  note: {
+const Note = ({ note, modalOnOpen }) => {
+  const {
     title,
     description,
     createdAt: { year, month, date, hour, minute },
     tags,
-  },
-}) => {
-  minute.length === 0 ? (minute = `0${minute}`) : (minute = minute);
+    color,
+    label,
+    isPinned,
+  } = note;
+  const [noteState, noteDispatch] = useNote();
+  const editNoteHandler = () => {
+    noteDispatch({
+      type: "NOTE_HANDLER",
+      payload: { editNote: true, editNoteDetails: note },
+    });
+    modalOnOpen();
+  };
+
   return (
     <Box padding="2">
       <AccordionItem>
         <h2>
-          <AccordionButton>
+          <AccordionButton bgColor={color ? color : "transparent"}>
             <Box justifyContent="space-between" flex="1" textAlign="left">
-              <Heading size="lg"> {title}</Heading>{" "}
+              <Heading size="lg" mb="2">
+                {" "}
+                {title}
+              </Heading>{" "}
               {tags.map((tag) => (
-                <span>
+                <span key={tag}>
                   <Tag
                     mr="1"
                     size="sm"
@@ -35,7 +52,8 @@ const Note = ({
                     variant="solid"
                     colorScheme="blue"
                   >
-                    {tag}
+                    <TagLabel> {tag}</TagLabel>
+                    {/* <TagRightIcon as={CloseIcon} h="3" /> */}
                   </Tag>
                 </span>
               ))}{" "}
@@ -47,9 +65,9 @@ const Note = ({
         </h2>
         <AccordionPanel pb={4}>{description}</AccordionPanel>
       </AccordionItem>
-      {/* <Button variant="outline" colorScheme="blue">
-        Button
-      </Button> */}
+      <Button variant="outline" colorScheme="blue" onClick={editNoteHandler}>
+        Edit
+      </Button>
     </Box>
   );
 };
