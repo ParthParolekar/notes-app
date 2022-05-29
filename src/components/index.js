@@ -11,6 +11,8 @@ import PriorityInput from "./PriorityInput/PriorityInput";
 import TagsInput from "./TagsInput/TagsInput";
 import ColorInput from "./ColorInput/ColorInput";
 import PinnedInput from "./PinnedInput/PinnedInput";
+import PinnedNotes from "./PinnedNotes/PinnedNotes";
+import UnpinnedNotes from "./UnpinnedNotes/UnpinnedNotes";
 export {
   Navbar,
   LoginForm,
@@ -25,4 +27,6 @@ export {
   TagsInput,
   ColorInput,
   PinnedInput,
+  PinnedNotes,
+  UnpinnedNotes,
 };

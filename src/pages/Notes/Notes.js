@@ -2,7 +2,12 @@ import { Accordion, Container, Box, Button, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CreateNoteButton, Note } from "../../components";
+import {
+  CreateNoteButton,
+  Note,
+  PinnedNotes,
+  UnpinnedNotes,
+} from "../../components";
 import { useAuth } from "../../Context/AuthContext/AuthContext";
 import { useUser } from "../../Context/UserContext/UserContext";
 
@@ -32,13 +37,8 @@ const Notes = ({ modalOnOpen }) => {
   return (
     <Container maxW={["100vw", "100vw", "70vw"]} pt="10">
       <CreateNoteButton modalOnOpen={modalOnOpen} />
-
-      <Accordion allowMultiple>
-        {notes &&
-          notes.map((note) => (
-            <Note note={note} key={note._id} modalOnOpen={modalOnOpen} />
-          ))}
-      </Accordion>
+      <PinnedNotes notes={notes} modalOnOpen={modalOnOpen} />
+      <UnpinnedNotes notes={notes} modalOnOpen={modalOnOpen} />
     </Container>
   );
 };

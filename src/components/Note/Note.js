@@ -1,5 +1,5 @@
 import React from "react";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, EditIcon } from "@chakra-ui/icons";
 import {
   AccordionButton,
   AccordionIcon,
@@ -34,8 +34,8 @@ const Note = ({ note, modalOnOpen }) => {
   };
 
   return (
-    <Box padding="2">
-      <AccordionItem>
+    <Box mt="2" padding="2">
+      <AccordionItem bgColor={color ? color : "transparent"}>
         <h2>
           <AccordionButton bgColor={color ? color : "transparent"}>
             <Box justifyContent="space-between" flex="1" textAlign="left">
@@ -53,7 +53,6 @@ const Note = ({ note, modalOnOpen }) => {
                     colorScheme="blue"
                   >
                     <TagLabel> {tag}</TagLabel>
-                    {/* <TagRightIcon as={CloseIcon} h="3" /> */}
                   </Tag>
                 </span>
               ))}{" "}
@@ -65,8 +64,13 @@ const Note = ({ note, modalOnOpen }) => {
         </h2>
         <AccordionPanel pb={4}>{description}</AccordionPanel>
       </AccordionItem>
-      <Button variant="outline" colorScheme="blue" onClick={editNoteHandler}>
-        Edit
+      <Button
+        variant="ghost"
+        colorScheme="blue"
+        mt="2"
+        onClick={editNoteHandler}
+      >
+        <EditIcon />
       </Button>
     </Box>
   );

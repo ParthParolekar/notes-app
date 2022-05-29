@@ -16,7 +16,7 @@ const CreateNoteButton = ({ modalOnOpen }) => {
       variant="solid"
       w="100%"
       colorScheme="blue"
-      mt="100"
+      mt="10"
       onClick={openCreateNoteModal}
     >
       Create Note
