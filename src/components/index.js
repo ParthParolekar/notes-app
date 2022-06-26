@@ -13,6 +13,7 @@ import ColorInput from "./ColorInput/ColorInput";
 import PinnedInput from "./PinnedInput/PinnedInput";
 import PinnedNotes from "./PinnedNotes/PinnedNotes";
 import UnpinnedNotes from "./UnpinnedNotes/UnpinnedNotes";
+import Filters from "./Filters/Filters";
 export {
   Navbar,
   LoginForm,
@@ -29,4 +30,5 @@ export {
   PinnedInput,
   PinnedNotes,
   UnpinnedNotes,
+  Filters,
 };

@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { UserProvider } from "./Context/UserContext/UserContext";
 import { NoteProvider } from "./Context/NoteContext/NoteContext";
+import { FilterProvider } from "./Context/FilterContext/FilterContext";
 
 // Call make Server
 makeServer();
@@ -16,13 +17,15 @@ ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
       <NoteProvider>
-        <UserProvider>
-          <ChakraProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </ChakraProvider>
-        </UserProvider>
+        <FilterProvider>
+          <UserProvider>
+            <ChakraProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </ChakraProvider>
+          </UserProvider>
+        </FilterProvider>
       </NoteProvider>
     </AuthProvider>
   </React.StrictMode>,
