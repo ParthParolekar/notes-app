@@ -1,4 +1,3 @@
-import React from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -10,14 +9,14 @@ import {
   RadioGroup,
   Stack,
 } from "@chakra-ui/react";
+import React from "react";
 import { useFilter } from "../../../Context/FilterContext/FilterContext";
 
-const PriorityFilter = () => {
+const SortByDate = () => {
   const [filterState, filterDispatch] = useFilter();
-  const priorityFilterHandler = (e) => {
-    filterDispatch({ type: "FILTER_BY_PRIORITY", payload: e });
+  const sortByDateHandler = (e) => {
+    filterDispatch({ type: "SORT_BY_DATE", payload: e });
   };
-
   return (
     <Menu>
       <MenuButton
@@ -26,22 +25,16 @@ const PriorityFilter = () => {
         as={Button}
         rightIcon={<ChevronDownIcon />}
       >
-        Filter By Priority
+        Sort By Date
       </MenuButton>
       <MenuList>
-        <RadioGroup onChange={priorityFilterHandler} defaultValue="ALL">
+        <RadioGroup onChange={sortByDateHandler} defaultValue="LATEST">
           <Stack direction="column">
             <MenuItem>
-              <Radio value="ALL">All</Radio>
+              <Radio value="LATEST">Latest</Radio>
             </MenuItem>
             <MenuItem>
-              <Radio value="LOW">Low</Radio>
-            </MenuItem>
-            <MenuItem>
-              <Radio value="MEDIUM">Medium</Radio>
-            </MenuItem>
-            <MenuItem>
-              <Radio value="HIGH">High</Radio>
+              <Radio value="OLDEST">Oldest</Radio>
             </MenuItem>
           </Stack>
         </RadioGroup>
@@ -50,4 +43,4 @@ const PriorityFilter = () => {
   );
 };
 
-export default PriorityFilter;
+export default SortByDate;

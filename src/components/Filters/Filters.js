@@ -1,7 +1,7 @@
 import { Button, Container, Flex, Grid } from "@chakra-ui/react";
 import React from "react";
 
-import { TagFilter, PriorityFilter } from "./index";
+import { TagFilter, PriorityFilter, SortByDate } from "./index";
 
 const Filters = ({ applyFilters }) => {
   return (
@@ -18,6 +18,7 @@ const Filters = ({ applyFilters }) => {
       <Flex direction={["column", "row"]}>
         <TagFilter />
         <PriorityFilter />
+        <SortByDate />
       </Flex>
     </Container>
   );

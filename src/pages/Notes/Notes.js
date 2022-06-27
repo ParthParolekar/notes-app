@@ -13,7 +13,6 @@ import { useFilter } from "../../Context/FilterContext/FilterContext";
 import { useUser } from "../../Context/UserContext/UserContext";
 
 const Notes = ({ modalOnOpen }) => {
-  const data = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [notes, setNotes] = useState();
   const [authState] = useAuth();
@@ -58,6 +57,17 @@ const Notes = ({ modalOnOpen }) => {
       tempNotes = tempNotes
         .flat()
         .filter((note) => note.priority === filterState.filterByPriority);
+    }
+
+    if (filterState?.sortByDate === "LATEST") {
+      tempNotes = tempNotes
+        .flat()
+        .sort((a, b) => a.createdAt.time - b.createdAt.time);
+    }
+    if (filterState?.sortByDate === "OLDEST") {
+      tempNotes = tempNotes
+        .flat()
+        .sort((a, b) => b.createdAt.time - a.createdAt.time);
     }
 
     setFilteredNotes(
