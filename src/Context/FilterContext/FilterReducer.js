@@ -1,7 +1,7 @@
 export const initialState = {
-  sortByDate: "latest",
+  sortByDate: "LATEST",
   filterByTags: [],
-  filterByPriority: "all",
+  filterByPriority: "ALL",
 };
 
 export const filterReducer = (state, { type, payload }) => {

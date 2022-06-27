@@ -23,6 +23,7 @@ const Note = ({ note, modalOnOpen }) => {
     color,
     label,
     isPinned,
+    priority,
   } = note;
   const [noteState, noteDispatch] = useNote();
   const editNoteHandler = () => {
@@ -56,7 +57,7 @@ const Note = ({ note, modalOnOpen }) => {
                   </Tag>
                 </span>
               ))}{" "}
-              {date}/{month}/{year} {hour}:{minute}
+              {date}/{month}/{year} {hour}:{minute} {priority}
             </Box>
 
             <AccordionIcon />

@@ -1,10 +1,11 @@
 import { Button, Container, Flex, Grid } from "@chakra-ui/react";
 import React from "react";
-import TagFilter from "./TagFilter/TagFilter";
+
+import { TagFilter, PriorityFilter } from "./index";
 
 const Filters = ({ applyFilters }) => {
   return (
-    <Container maxW="100%" h="10vh" flex="">
+    <Container maxW="100%" h="10vh">
       <Button
         variant="solid"
         w="100%"
@@ -16,6 +17,7 @@ const Filters = ({ applyFilters }) => {
       </Button>
       <Flex direction={["column", "row"]}>
         <TagFilter />
+        <PriorityFilter />
       </Flex>
     </Container>
   );

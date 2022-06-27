@@ -54,6 +54,12 @@ const Notes = ({ modalOnOpen }) => {
       );
     }
 
+    if (filterState?.filterByPriority !== "ALL") {
+      tempNotes = tempNotes
+        .flat()
+        .filter((note) => note.priority === filterState.filterByPriority);
+    }
+
     setFilteredNotes(
       tempNotes?.flat().filter((note) => note.isPinned === false)
     );
@@ -61,8 +67,8 @@ const Notes = ({ modalOnOpen }) => {
 
   return (
     <Container maxW={["100vw", "100vw", "70vw"]} pt="10">
-      <PinnedNotes notes={notes} modalOnOpen={modalOnOpen} />
       <CreateNoteButton modalOnOpen={modalOnOpen} />
+      <PinnedNotes notes={notes} modalOnOpen={modalOnOpen} />
       <Filters applyFilters={applyFilters} />
       <UnpinnedNotes
         notes={notes}

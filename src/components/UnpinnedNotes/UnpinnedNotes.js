@@ -7,7 +7,7 @@ import { useUser } from "../../Context/UserContext/UserContext";
 const UnpinnedNotes = ({ notes, modalOnOpen, filteredNotes }) => {
   return (
     <>
-      <Heading>Unpinned Notes</Heading>
+      <Heading mt="16">Unpinned Notes</Heading>
       <Accordion allowMultiple>
         {filteredNotes?.map((note) => (
           <Note note={note} key={note._id} modalOnOpen={modalOnOpen} />
