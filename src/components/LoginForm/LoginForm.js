@@ -44,13 +44,8 @@ const LoginForm = ({ headingColorValue }) => {
     setPassword("adarshBalika123");
   };
   return (
-    <Container height="60vh" maxW="50vw" my="auto" mt="16">
-      <VStack
-        border="1px"
-        borderColor="gray.500"
-        borderRadius="10"
-        padding="10"
-      >
+    <Container height="60vh" maxW={["90vw", "70vw", "50vw"]} my="auto" mt="16">
+      <VStack border="1px" borderColor="gray.500" borderRadius="10" padding="5">
         <Heading mb="10" color={headingColorValue}>
           Login
         </Heading>
