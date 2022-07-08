@@ -6,9 +6,10 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import { useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { useAuth } from "./Context/AuthContext/AuthContext";
 import { Archive, Labels, Notes, SignUpPage } from "./pages";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [filteredNotes, setFilteredNotes] = useState();
   const headingColorValue = useColorModeValue("gray.700", "gray.300");
   const [authState, authDispatch] = useAuth();
   const navigate = useNavigate();
@@ -35,13 +36,26 @@ function App() {
     <div className="App">
       <Navbar headingColorValue={headingColorValue} onOpen={onOpen} />
       <Sidebar onClose={onClose} isOpen={isOpen} modalOnOpen={modalOnOpen} />
-      <CreateNote modalIsOpen={modalIsOpen} modalOnClose={modalOnClose} />
+      <CreateNote
+        setFilteredNotes={setFilteredNotes}
+        modalIsOpen={modalIsOpen}
+        modalOnClose={modalOnClose}
+      />
       <Routes>
         <Route path="/Mockman" element={<Mockman />} />
 
         <Route path="/" element={<Navigate to="/login" />} />
 
-        <Route path="/notes" element={<Notes modalOnOpen={modalOnOpen} />} />
+        <Route
+          path="/notes"
+          element={
+            <Notes
+              modalOnOpen={modalOnOpen}
+              setFilteredNotes={setFilteredNotes}
+              filteredNotes={filteredNotes}
+            />
+          }
+        />
         <Route path="/archive" element={<Archive />} />
         <Route path="/labels" element={<Labels />} />
 

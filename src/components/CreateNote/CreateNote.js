@@ -28,8 +28,9 @@ import {
   ColorInput,
   PinnedInput,
 } from "../index";
+import { useFilter } from "../../Context/FilterContext/FilterContext";
 
-const CreateNote = ({ modalIsOpen, modalOnClose }) => {
+const CreateNote = ({ modalIsOpen, modalOnClose, setFilteredNotes }) => {
   const [note, setNote] = useState({
     title: "",
     description: "",
@@ -40,10 +41,27 @@ const CreateNote = ({ modalIsOpen, modalOnClose }) => {
   });
   const [tag, setTag] = useState("");
   const [titleEmptyError, setTitleEmptyError] = useState(false);
+  const [notes, setNotes] = useState();
 
   const [userState, userDispatch] = useUser();
   const [authState, authDispatch] = useAuth();
   const [noteState, noteDispatch] = useNote();
+  const [filterState, filterDispatch, applyFilters] = useFilter();
+
+  useEffect(async () => {
+    try {
+      authState.encodedToken &&
+        (await axios
+          .get("/api/notes", {
+            headers: { authorization: authState.encodedToken },
+          })
+          .then((response) => {
+            setNotes(response.data.notes);
+          }));
+    } catch {
+      (err) => console.log(err);
+    }
+  }, [userState.notes]);
 
   useEffect(() => {
     if (noteState.editNote === true) {
@@ -98,7 +116,8 @@ const CreateNote = ({ modalIsOpen, modalOnClose }) => {
               payload: { editNote: false, editNoteDetails: null },
             })
           )
-          .then(clearPreviousNote());
+          .then(clearPreviousNote())
+          .then(setFilteredNotes(applyFilters(notes)));
       } catch {
         (err) => console.log(err);
       }
@@ -131,7 +150,8 @@ const CreateNote = ({ modalIsOpen, modalOnClose }) => {
           .then((res) =>
             userDispatch({ type: "NOTES_HANDLER", payload: res.data.notes })
           )
-          .then(clearPreviousNote());
+          .then(clearPreviousNote())
+          .then(setFilteredNotes(applyFilters(notes)));
       } catch {
         (err) => console.log(err);
       }

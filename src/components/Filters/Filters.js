@@ -3,7 +3,7 @@ import React from "react";
 
 import { TagFilter, PriorityFilter, SortByDate } from "./index";
 
-const Filters = ({ applyFilters }) => {
+const Filters = ({ applyFilters, notes, setFilteredNotes }) => {
   return (
     <Container maxW="100%" h="10vh">
       <Button
@@ -11,7 +11,7 @@ const Filters = ({ applyFilters }) => {
         w="100%"
         colorScheme="blue"
         mt="10"
-        onClick={applyFilters}
+        onClick={() => setFilteredNotes(applyFilters(notes))}
       >
         Apply
       </Button>
