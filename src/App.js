@@ -5,7 +5,7 @@ import { CreateNote, Navbar, Sidebar } from "./components";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import { useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { useAuth } from "./Context/AuthContext/AuthContext";
-import { Archive, Labels, Notes, SignUpPage } from "./pages";
+import { Archive, Labels, Notes, SignUpPage, Trash } from "./pages";
 import { useState, useEffect } from "react";
 
 function App() {
@@ -56,8 +56,12 @@ function App() {
             />
           }
         />
-        <Route path="/archive" element={<Archive />} />
-        <Route path="/labels" element={<Labels />} />
+        <Route
+          path="/archive"
+          element={<Archive modalOnOpen={modalOnOpen} />}
+        />
+        {/* <Route path="/labels" element={<Labels />} />
+        <Route path="/trash" element={<Trash />} /> */}
 
         <Route
           path="/login"

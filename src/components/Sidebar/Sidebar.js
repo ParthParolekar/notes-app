@@ -32,17 +32,7 @@ const Sidebar = ({ isOpen, onClose, modalOnOpen }) => {
               Notes
             </Button>
           </NavLink>
-          <NavLink to="/labels">
-            <Button
-              variant="ghost"
-              mt="2"
-              colorScheme="blue"
-              w="100%"
-              onClick={onClose}
-            >
-              Labels
-            </Button>
-          </NavLink>
+
           <NavLink to="/archive">
             <Button
               variant="ghost"
@@ -53,6 +43,17 @@ const Sidebar = ({ isOpen, onClose, modalOnOpen }) => {
             >
               Archive
             </Button>
+          </NavLink>
+          <NavLink to="/trash">
+            {/* <Button
+              variant="ghost"
+              mt="2"
+              colorScheme="blue"
+              w="100%"
+              onClick={onClose}
+            >
+              Trash
+            </Button> */}
           </NavLink>
           <CreateNoteButton modalOnOpen={modalOnOpen} />
         </DrawerBody>

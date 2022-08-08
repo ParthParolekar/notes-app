@@ -3,4 +3,5 @@ import SignUpPage from "./SignUpPage/SignUpPage";
 import Notes from "./Notes/Notes";
 import Archive from "./Archive/Archive";
 import Labels from "./Labels/Labels";
-export { LoginPage, SignUpPage, Notes, Archive, Labels };
+import Trash from "./Trash/Trash";
+export { LoginPage, SignUpPage, Notes, Archive, Labels, Trash };
