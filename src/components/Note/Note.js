@@ -1,5 +1,12 @@
 import React from "react";
-import { CloseIcon, EditIcon } from "@chakra-ui/icons";
+import axios from "axios";
+import {
+  CloseIcon,
+  EditIcon,
+  DeleteIcon,
+  ViewIcon,
+  ViewOffIcon,
+} from "@chakra-ui/icons";
 import {
   AccordionButton,
   AccordionIcon,
@@ -13,6 +20,8 @@ import {
   TagRightIcon,
 } from "@chakra-ui/react";
 import { useNote } from "../../Context/NoteContext/NoteContext";
+import { useUser } from "../../Context/UserContext/UserContext";
+import { useAuth } from "../../Context/AuthContext/AuthContext";
 
 const Note = ({ note, modalOnOpen }) => {
   const {
@@ -26,12 +35,48 @@ const Note = ({ note, modalOnOpen }) => {
     priority,
   } = note;
   const [noteState, noteDispatch] = useNote();
+  const [userState, userDispatch] = useUser();
+  const [authState, authDispatch] = useAuth();
   const editNoteHandler = () => {
     noteDispatch({
       type: "NOTE_HANDLER",
       payload: { editNote: true, editNoteDetails: note },
     });
     modalOnOpen();
+  };
+
+  const archiveNoteHandler = () => {
+    if (!userState.archive.includes(note)) {
+      axios
+        .post(
+          `/api/notes/archives/${note._id}`,
+          { note },
+          {
+            headers: { authorization: authState.encodedToken },
+          }
+        )
+        .then((res) =>
+          userDispatch({
+            type: "ARCHIVE_HANDLER",
+            payload: { notes: res.data.notes, archive: res.data.archives },
+          })
+        );
+    } else {
+      axios
+        .post(
+          `/api/archives/restore/${note._id}`,
+          {},
+          {
+            headers: { authorization: authState.encodedToken },
+          }
+        )
+        .then((res) =>
+          userDispatch({
+            type: "ARCHIVE_HANDLER",
+            payload: { notes: res.data.notes, archive: res.data.archives },
+          })
+        );
+    }
   };
 
   return (
@@ -72,6 +117,14 @@ const Note = ({ note, modalOnOpen }) => {
         onClick={editNoteHandler}
       >
         <EditIcon />
+      </Button>
+      <Button
+        variant="ghost"
+        colorScheme="blue"
+        mt="2"
+        onClick={archiveNoteHandler}
+      >
+        {!userState.archive.includes(note) ? <ViewOffIcon /> : <ViewIcon />}
       </Button>
     </Box>
   );
